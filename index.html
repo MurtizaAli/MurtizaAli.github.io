@@ -173,7 +173,13 @@
   .pub-venue { font-size: 0.92rem; font-style: italic; color: #3a4450; }
   .pub-link { font-size: 0.85rem; font-weight: 500; margin-left: 8px; font-style: normal; }
   .hidden { display: none; }
-
+  /* ---------- Projects ---------- */
+  .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .project { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; }
+  .project h3 { font-size: 1.08rem; }
+  .project .date { color: var(--muted); font-size: 0.85rem; }
+  .project p { font-size: 0.93rem; color: #3a4450; }
+  .project .interests { margin: 4px 0 0; }
   /* ---------- Footer ---------- */
   footer { margin-top: 64px; background: #0d2436; color: #c9d3dd; padding: 36px 20px; text-align: center; font-size: 0.92rem; }
   footer a { color: #fff; }
@@ -212,6 +218,7 @@
       <li><a href="#experience">Experience</a></li>
       <li><a href="#highlights">Highlights</a></li>
       <li><a href="#publications">Publications</a></li>
+      <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
@@ -483,6 +490,37 @@
         <div class="pub-venue">IEEE Transactions on Artificial Intelligence (first revision)</div>
       </li>
     </ol>
+  </div>
+</section>
+
+<!-- ===================== PROJECTS ===================== -->
+<section id="projects">
+  <h2>Projects</h2>
+  <div class="projects">
+    <div class="project">
+      <h3>YOLO-Based Detection and Localization of UAVs</h3>
+      <div class="date">Aug 2024 – Nov 2024</div>
+      <p>Built a custom dataset and a PTZ-camera scanning algorithm that detects and localizes UAVs, automatically zooms in on the target for confirmation, and verifies its azimuth and elevation relative to the camera frame.</p>
+      <div class="interests"><span class="tag">YOLO</span><span class="tag">Computer Vision</span><span class="tag">PTZ Camera</span></div>
+    </div>
+    <div class="project">
+      <h3>Underwater ROV Detection</h3>
+      <div class="date">Jul 2023 – Apr 2024</div>
+      <p>Acoustic detection of remotely operated underwater vehicles, combining multiple feature modalities with a cross-attention network. The work led to an OCEANS 2024 paper and a filed patent for a buoy-mounted array surveillance system.</p>
+      <div class="interests"><span class="tag">Underwater Acoustics</span><span class="tag">Python</span><span class="tag">Audacity</span></div>
+    </div>
+    <div class="project">
+      <h3>Acoustic Detection of UAVs</h3>
+      <div class="date">Feb 2023 – Mar 2024</div>
+      <p>Detecting drones from the sound of their propellers and motors, a low-cost alternative to radar that works in non-line-of-sight conditions. Lightweight deep learning models using wavelet scattering features were deployed on a Raspberry Pi for real-time monitoring.</p>
+      <div class="interests"><span class="tag">Acoustic Signal Processing</span><span class="tag">Deep Learning</span><span class="tag">Raspberry Pi</span></div>
+    </div>
+    <div class="project">
+      <h3>Fast Haze Removal through Dark Channel Prior</h3>
+      <div class="date">Oct 2019 – Feb 2020 · University of Kashmir</div>
+      <p>Implemented a fast, non-deep-learning image dehazing algorithm based on an enhanced Dark Channel Prior to restore image clarity in hazy conditions, suitable for real-time use.</p>
+      <div class="interests"><span class="tag">Image Processing</span><span class="tag">MATLAB</span></div>
+    </div>
   </div>
 </section>
 

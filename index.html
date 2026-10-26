@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Murtiza Ali | Acoustic &amp; Radar Signal Processing</title>
+<meta name="description" content="Murtiza Ali, postdoctoral researcher in acoustic and radar signal processing, direction-of-arrival estimation, and deep learning.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1c2430;
+    --muted: #5b6573;
+    --line: #e3e6ea;
+    --bg: #ffffff;
+    --bg-soft: #f6f7f9;
+    --accent: #0f4c75;
+    --accent-soft: #e7f0f7;
+    --max: 960px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Inter", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.65;
+    font-size: 16px;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h1, h2, h3 { font-family: "Source Serif 4", Georgia, serif; line-height: 1.25; }
+
+  /* ---------- Navigation ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: var(--max); margin: 0 auto; padding: 0 20px;
+    display: flex; align-items: center; justify-content: space-between; height: 58px;
+  }
+  .brand { font-family: "Source Serif 4", serif; font-weight: 700; font-size: 1.15rem; color: var(--ink); }
+  .nav-links { display: flex; gap: 22px; list-style: none; }
+  .nav-links a { color: var(--muted); font-size: 0.92rem; font-weight: 500; }
+  .nav-links a:hover { color: var(--accent); text-decoration: none; }
+  .menu-btn { display: none; background: none; border: 0; font-size: 1.5rem; cursor: pointer; color: var(--ink); }
+
+  /* ---------- Slideshow ---------- */
+  .slideshow { position: relative; height: 460px; overflow: hidden; background: #0d2436; }
+  .slide {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: 0; transition: opacity 1.2s ease;
+  }
+  .slide.active { opacity: 1; }
+  .slide.placeholder { background: linear-gradient(135deg, #0f4c75 0%, #1b262c 100%); }
+  .slide::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 100%);
+  }
+  .slide-caption {
+    position: absolute; left: 0; right: 0; bottom: 56px; z-index: 2;
+    max-width: var(--max); margin: 0 auto; padding: 0 20px;
+    color: #fff; font-size: 0.95rem; opacity: 0.92;
+  }
+  .hero-text {
+    position: absolute; z-index: 3; left: 0; right: 0; bottom: 84px;
+    max-width: var(--max); margin: 0 auto; padding: 0 20px; color: #fff;
+  }
+  .hero-text h1 { font-size: 2.6rem; font-weight: 700; text-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+  .hero-text p { font-size: 1.1rem; opacity: 0.95; text-shadow: 0 1px 8px rgba(0,0,0,0.4); }
+  .slide-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 4;
+    background: rgba(255,255,255,0.18); color: #fff; border: 0;
+    width: 42px; height: 42px; border-radius: 50%; font-size: 1.3rem; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .slide-arrow:hover { background: rgba(255,255,255,0.35); }
+  .slide-arrow.prev { left: 16px; }
+  .slide-arrow.next { right: 16px; }
+  .dots { position: absolute; bottom: 20px; left: 0; right: 0; z-index: 4; display: flex; justify-content: center; gap: 9px; }
+  .dot {
+    width: 10px; height: 10px; border-radius: 50%; border: 0; cursor: pointer;
+    background: rgba(255,255,255,0.45); transition: background 0.2s, transform 0.2s;
+  }
+  .dot.active { background: #fff; transform: scale(1.2); }
+
+  /* ---------- Layout ---------- */
+  main { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+  section { padding: 56px 0 8px; scroll-margin-top: 60px; }
+  section h2 {
+    font-size: 1.7rem; margin-bottom: 22px; padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent); display: inline-block;
+  }
+
+  /* ---------- About ---------- */
+  .about-grid { display: grid; grid-template-columns: 200px 1fr; gap: 36px; align-items: start; }
+  .profile-photo {
+    width: 200px; height: 200px; border-radius: 50%; object-fit: cover;
+    background: var(--accent-soft); border: 4px solid #fff; box-shadow: 0 4px 18px rgba(0,0,0,0.1);
+  }
+  .about p { margin-bottom: 14px; }
+  .interests { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 18px; }
+  .tag { background: var(--accent-soft); color: var(--accent); font-size: 0.85rem; padding: 4px 12px; border-radius: 99px; font-weight: 500; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn {
+    display: inline-block; padding: 8px 16px; border-radius: 6px; font-size: 0.9rem; font-weight: 500;
+    border: 1px solid var(--accent); color: var(--accent);
+  }
+  .btn:hover { background: var(--accent); color: #fff; text-decoration: none; }
+  .btn.primary { background: var(--accent); color: #fff; }
+  .btn.primary:hover { background: #0b3a5a; }
+
+  /* ---------- Timeline (education & experience) ---------- */
+  .timeline { border-left: 2px solid var(--line); margin-left: 6px; }
+  .entry { position: relative; padding: 0 0 28px 26px; }
+  .entry::before {
+    content: ""; position: absolute; left: -8px; top: 6px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: #fff; border: 3px solid var(--accent);
+  }
+  .entry-head { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .entry h3 { font-size: 1.15rem; }
+  .entry .date { color: var(--muted); font-size: 0.9rem; white-space: nowrap; }
+  .entry .org { color: var(--accent); font-weight: 500; font-size: 0.95rem; }
+  .entry p, .entry li { color: #3a4450; font-size: 0.95rem; }
+  .entry p { margin-top: 6px; }
+  .badge { display: inline-block; background: #fff4e0; color: #9a5b00; font-size: 0.75rem; font-weight: 600; padding: 2px 9px; border-radius: 99px; margin-left: 6px; vertical-align: middle; }
+
+  /* ---------- Highlights ---------- */
+  .highlights { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .card { background: var(--bg-soft); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; font-size: 0.93rem; }
+  .card strong { display: block; font-family: "Source Serif 4", serif; font-size: 1.02rem; margin-bottom: 2px; }
+
+  /* ---------- Publications ---------- */
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+  .tab {
+    background: var(--bg-soft); border: 1px solid var(--line); border-radius: 99px;
+    padding: 6px 16px; font: inherit; font-size: 0.88rem; cursor: pointer; color: var(--muted);
+  }
+  .tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .pub-group h3 { font-size: 1.2rem; margin: 10px 0 12px; color: var(--muted); }
+  .pub-list { list-style: none; counter-reset: pub; }
+  .pub {
+    padding: 14px 0 14px 44px; border-bottom: 1px solid var(--line);
+    position: relative; counter-increment: pub;
+  }
+  .pub::before {
+    content: counter(pub); position: absolute; left: 0; top: 14px;
+    width: 30px; height: 30px; border-radius: 6px; background: var(--accent-soft); color: var(--accent);
+    font-size: 0.85rem; font-weight: 600; display: grid; place-items: center;
+  }
+  .pub-title { font-weight: 600; font-size: 1rem; }
+  .pub-authors { font-size: 0.92rem; color: var(--muted); }
+  .pub-authors b { color: var(--ink); }
+  .pub-venue { font-size: 0.92rem; font-style: italic; color: #3a4450; }
+  .pub-link { font-size: 0.85rem; font-weight: 500; margin-left: 8px; font-style: normal; }
+  .hidden { display: none; }
+
+  /* ---------- Footer ---------- */
+  footer { margin-top: 64px; background: #0d2436; color: #c9d3dd; padding: 36px 20px; text-align: center; font-size: 0.92rem; }
+  footer a { color: #fff; }
+  footer .small { margin-top: 8px; opacity: 0.7; font-size: 0.82rem; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 760px) {
+    .menu-btn { display: block; }
+    .nav-links {
+      display: none; position: absolute; top: 58px; left: 0; right: 0;
+      flex-direction: column; gap: 0; background: #fff; border-bottom: 1px solid var(--line);
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { display: block; padding: 12px 20px; }
+    .slideshow { height: 340px; }
+    .hero-text { bottom: 96px; }
+    .slide-caption { bottom: 50px; font-size: 0.88rem; }
+    .hero-text h1 { font-size: 1.9rem; }
+    .hero-text p { font-size: 0.98rem; }
+    .slide-arrow { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 20px; }
+    .profile-photo { width: 150px; height: 150px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAVIGATION ===================== -->
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="#">Murtiza Ali</a>
+    <button class="menu-btn" aria-label="Open menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#highlights">Highlights</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===================== SLIDESHOW =====================
+     To change the pictures: upload your photos into a folder called "images"
+     in your repository, then edit the SLIDES list in the script at the bottom
+     of this file (file name + caption). Any number of slides works.
+======================================================== -->
+<header class="slideshow" id="slideshow">
+  <div class="hero-text">
+    <h1>Murtiza Ali</h1>
+    <p>Postdoctoral Researcher &middot; Acoustic &amp; Radar Signal Processing</p>
+  </div>
+  <button class="slide-arrow prev" aria-label="Previous slide">&#8249;</button>
+  <button class="slide-arrow next" aria-label="Next slide">&#8250;</button>
+  <div class="dots"></div>
+</header>
+
+<main>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="about" class="about">
+  <h2>About Me</h2>
+  <div class="about-grid">
+    <!-- Upload your photo as images/profile.jpg -->
+    <img class="profile-photo" src="images/profile.jpg" alt="Photo of Murtiza Ali" onerror="this.style.display='none'; this.parentElement.style.gridTemplateColumns='1fr'">
+    <div>
+      <p>I am a Postdoctoral Research Engineer at <strong>South East Technological University (SETU)</strong>, Carlow, Ireland, where I develop signal processing and machine learning algorithms for FMCW radar, with a focus on contactless respiration and heart-rate monitoring in multi-person environments. In November 2026 I will join the <strong>Technical University of Denmark (DTU)</strong> in Copenhagen as a Postdoctoral Researcher in neuromorphic acoustics.</p>
+      <p>I completed my Ph.D. in Signal Processing at <strong>IIT Jammu</strong> as a Prime Minister's Research Fellow. My doctoral work addressed robust direction-of-arrival (DoA) estimation for underwater and aerial acoustic sources using sparse recovery and deep learning. Originally from the Kashmir Valley, I also have hands-on experience designing and deploying deep neural networks on embedded platforms for real-time applications.</p>
+      <div class="interests">
+        <span class="tag">Direction-of-Arrival Estimation</span>
+        <span class="tag">Underwater &amp; Aerial Acoustics</span>
+        <span class="tag">Radar Signal Processing</span>
+        <span class="tag">Compressed Sensing</span>
+        <span class="tag">Deep Learning</span>
+        <span class="tag">Embedded AI</span>
+      </div>
+      <div class="links">
+        <a class="btn primary" href="mailto:khandaymurtaza@gmail.com">Email</a>
+        <a class="btn" href="https://iitjammu.ac.in/pmrf/murtiza-ali-pmrf" target="_blank" rel="noopener">PMRF Profile</a>
+        <!-- Add your links here, e.g.:
+        <a class="btn" href="https://scholar.google.com/citations?user=XXXX" target="_blank" rel="noopener">Google Scholar</a>
+        <a class="btn" href="https://orcid.org/0000-0000-0000-0000" target="_blank" rel="noopener">ORCID</a>
+        <a class="btn" href="https://www.linkedin.com/in/XXXX" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="cv.pdf" target="_blank">CV (PDF)</a>
+        -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EDUCATION ===================== -->
+<section id="education">
+  <h2>Education</h2>
+  <div class="timeline">
+    <div class="entry">
+      <div class="entry-head">
+        <h3>Ph.D. in Signal Processing</h3>
+        <span class="date">Jan 2021 – Sep 2025</span>
+      </div>
+      <div class="org">Indian Institute of Technology Jammu</div>
+      <p><em>Thesis:</em> Robust Direction-of-Arrival Estimation in Challenging Environments using Sparse Recovery and Deep Learning Techniques. Underwater and aerial acoustics. CGPA 8.54/10.</p>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <h3>M.Tech in Embedded Systems and Solutions</h3>
+        <span class="date">Nov 2017 – Feb 2020</span>
+      </div>
+      <div class="org">University of Kashmir</div>
+      <p>CGPA 8.46/10. Coursework in DSP architecture, ARM Cortex embedded design, embedded security, image processing, and IoT.</p>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <h3>B.Tech in Electronics and Communication</h3>
+        <span class="date">Jun 2012 – Aug 2016</span>
+      </div>
+      <div class="org">Islamic University of Science and Technology</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EXPERIENCE ===================== -->
+<section id="experience">
+  <h2>Experience</h2>
+  <div class="timeline">
+    <div class="entry">
+      <div class="entry-head">
+        <h3>Postdoctoral Researcher <span class="badge">Incoming</span></h3>
+        <span class="date">From Nov 2026</span>
+      </div>
+      <div class="org">Technical University of Denmark (DTU), Copenhagen, Denmark</div>
+      <p>Research in neuromorphic acoustics.</p>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <h3>Postdoctoral Research Engineer</h3>
+        <span class="date">Jun 2026 – Present</span>
+      </div>
+      <div class="org">South East Technological University (SETU), Carlow, Ireland</div>
+      <p>Signal processing and machine learning for radar sensing. Developing robust algorithms for contactless vital-sign monitoring with FMCW radar, with emphasis on respiration and heart-rate estimation in challenging multi-person environments.</p>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <h3>Senior Project Scientist</h3>
+        <span class="date">Dec 2025 – May 2026</span>
+      </div>
+      <div class="org">Indian Institute of Technology Delhi, India</div>
+      <p>Advanced DoA estimation using phase information for near-field signals with co-arrays, extended to the near-field ultrasound domain.</p>
+    </div>
+    <div class="entry">
+      <div class="entry-head">
+        <h3>Software Testing Engineer</h3>
+        <span class="date">Nov 2016 – Feb 2017</span>
+      </div>
+      <div class="org">IBM, Kolkata, India</div>
+      <p>Designed test cases and reported defects for software developed for a US client, working with the development team to improve quality and user experience.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HIGHLIGHTS ===================== -->
+<section id="highlights">
+  <h2>Awards &amp; Highlights</h2>
+  <div class="highlights">
+    <div class="card"><strong>Prime Minister's Research Fellowship</strong>Awarded 2022 (Jan 2022 – Jan 2025).</div>
+    <div class="card"><strong>EUSIPCO 2025 Travel Grants</strong>EUSIPCO travel grant, plus ANRF and CSIR travel grants.</div>
+    <div class="card"><strong>Filed Patent (2025)</strong>System and method for underwater surveillance and detection of remotely operated vehicles, using a buoy-mounted sensor array.</div>
+    <div class="card"><strong>Navy Day 2022</strong>Presented an underwater target localization algorithm to Indian Defence Ministers.</div>
+    <div class="card"><strong>IInvenTiv 2024 &amp; 2025</strong>Showcased an acoustic UAV detection system.</div>
+    <div class="card"><strong>International Presentations</strong>ICASSP 2025 (Hyderabad), INTERSPEECH 2024 (Kos, Greece), OCEANS 2024 (Singapore).</div>
+  </div>
+</section>
+
+<!-- ===================== PUBLICATIONS ===================== -->
+<section id="publications">
+  <h2>Publications</h2>
+  <div class="tabs">
+    <button class="tab active" data-filter="all">All</button>
+    <button class="tab" data-filter="journal">Journals</button>
+    <button class="tab" data-filter="conference">Conferences</button>
+    <button class="tab" data-filter="review">Under Review</button>
+  </div>
+
+  <div class="pub-group" data-type="journal">
+    <h3>Journal Articles</h3>
+    <ol class="pub-list">
+      <li class="pub">
+        <div class="pub-title">Edge Deployable Weed Detection in UAV Imagery Using YOLOv12 with Scale and Motion Aware Data Augmentation</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Paul Abisheik, Karan Nathwani, Liang Zhao</div>
+        <div class="pub-venue">IEEE Transactions on AgriFood Electronics, 2026 <a class="pub-link" href="https://doi.org/10.1109/TAFE.2026.3690817" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">WADNet: Improving Direction-of-Arrival Estimation in Multipath Underwater Settings Using Wavelet Scattering Transform and Self-Attention Mechanism</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Karan Nathwani</div>
+        <div class="pub-venue">IEEE Journal of Oceanic Engineering, 2026 <a class="pub-link" href="https://doi.org/10.1109/JOE.2026.3674394" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">A Deep Multiscale Wavelet Scattering-Attention Model for Real-Time Underwater DoA Estimation</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Karan Nathwani</div>
+        <div class="pub-venue">IEEE Signal Processing Letters, 2026 <a class="pub-link" href="https://doi.org/10.1109/LSP.2026.3659037" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">Enhancing Traditional Underwater DoA Estimation Techniques Using Convolutional Autoencoder-Based Covariance Matrix Reconstruction</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Kaisar Hameed, Karan Nathwani</div>
+        <div class="pub-venue">IEEE Sensors Letters <a class="pub-link" href="https://doi.org/10.1109/LSENS.2024.3516859" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">Exploiting Wavelet Scattering Transform and 1D-CNN for Unmanned Aerial Vehicle Detection</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Karan Nathwani</div>
+        <div class="pub-venue">IEEE Signal Processing Letters, 2024 <a class="pub-link" href="https://doi.org/10.1109/LSP.2024.3421961" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">Exploiting the Data-Driven Regularizer in Group Delay-Based Sparse Recovery Algorithms for Robust 2D-DoA Estimation</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Karan Nathwani</div>
+        <div class="pub-venue">IEEE Sensors Letters, 2024 <a class="pub-link" href="https://doi.org/10.1109/LSENS.2024.3362987" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">Significance of Group Delay Spectrum in Re-weighted Sparse Recovery Algorithms for DOA Estimation</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Ashwani Koul, Karan Nathwani</div>
+        <div class="pub-venue">Digital Signal Processing (Elsevier), 2022 <a class="pub-link" href="https://doi.org/10.1016/j.dsp.2022.103388" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="pub-group" data-type="conference">
+    <h3>Conference Papers</h3>
+    <ol class="pub-list">
+      <li class="pub">
+        <div class="pub-title">Exploiting Constant-Q Transform and its Variant in Light-weight Neural Network Framework for Artificial Bandwidth Extension</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Mert Can Oener, Abid Bashir, Karan Nathwani, Mohammed Krini</div>
+        <div class="pub-venue">EUSIPCO 2025 <a class="pub-link" href="https://doi.org/10.23919/EUSIPCO63237.2025.11226350" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">Leveraging Constant-Q Transform in Lightweight Neural Network Framework Integrated with Spectral Folding for Artificial Bandwidth Extension</div>
+        <div class="pub-authors">Mert Can Oener, <b>Murtiza Ali</b>, Abid Bashir, Karan Nathwani, Mohammed Krini</div>
+        <div class="pub-venue">ISPA 2025 <a class="pub-link" href="https://doi.org/10.1109/ISPA66905.2025.11259474" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">Exploiting Wavelet Scattering Transform for an Unsupervised Speaker Diarization in Deep Neural Network Framework</div>
+        <div class="pub-authors">Arunav Arya, <b>Murtiza Ali</b>, Karan Nathwani</div>
+        <div class="pub-venue">INTERSPEECH 2024 <a class="pub-link" href="https://doi.org/10.1109/ICASSP49660.2025.10890038" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">Exploring Feature Modalities with Cross Attention Network for the Detection of Remotely Operated Underwater Vehicles</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Harsh Lakhlotra, Karan Nathwani</div>
+        <div class="pub-venue">OCEANS 2024 <a class="pub-link" href="https://doi.org/10.1109/OCEANS51537.2024.10682169" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">Variational Mode Decomposition-Based Self-Noise Cancellation in Oceanic Environment</div>
+        <div class="pub-authors">Pawan Kumar, Karan Nathwani, <b>Murtiza Ali</b></div>
+        <div class="pub-venue">OCEANS 2024 <a class="pub-link" href="https://doi.org/10.1109/OCEANS51537.2024.10682390" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">Exploiting Sparse Recovery Algorithms for Semi-Supervised Training of Deep Neural Networks for Direction-of-Arrival Estimation</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Aditya Arie Nugraha, Karan Nathwani</div>
+        <div class="pub-venue">ICASSP 2023 <a class="pub-link" href="https://doi.org/10.1109/ICASSP49357.2023.10095717" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">Self-Noise Cancellation in Underwater Acoustics using Deep Neural Network Frameworks</div>
+        <div class="pub-authors">Pawan Kumar, <b>Murtiza Ali</b>, Karan Nathwani</div>
+        <div class="pub-venue">OCEANS 2023 <a class="pub-link" href="https://doi.org/10.1109/OCEANSLimerick52467.2023.10244641" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">High Resolution DOA Estimation for Contiguous Target with Large Power Difference</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Karan Nathwani</div>
+        <div class="pub-venue">SSPD 2022 <a class="pub-link" href="https://doi.org/10.1109/SSPD54131.2022.9896193" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">Group Delay Based Re-Weighted Sparse Recovery Algorithms for Robust and High-Resolution Source Separation in DOA Framework</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Ashwani Koul, Karan Nathwani</div>
+        <div class="pub-venue">INTERSPEECH 2021 <a class="pub-link" href="https://doi.org/10.21437/Interspeech.2021-164" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">Differential Subspace Re-weighted Modelling for UWA Source Localization at Low SNRs</div>
+        <div class="pub-authors">Ashwani Koul, <b>Murtiza Ali</b>, Karan Nathwani</div>
+        <div class="pub-venue">OCEANS 2021 <a class="pub-link" href="https://doi.org/10.23919/OCEANS44145.2021.9705716" target="_blank" rel="noopener">DOI ↗</a></div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="pub-group" data-type="review">
+    <h3>Under Review</h3>
+    <ol class="pub-list">
+      <li class="pub">
+        <div class="pub-title">Transformer-Based DoA Estimation via Joint Second and Fourth-Order Cumulant Fusion</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Monika Aggarwal</div>
+        <div class="pub-venue">Submitted to IEEE Signal Processing Letters</div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">Sparse Covariance-Domain Framework for Near-Field Joint Angle–Range Estimation in Sensor Arrays</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Ranesh Saha, Monika Aggarwal</div>
+        <div class="pub-venue">Submitted to IEEE Sensors Journal</div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">A Two-Stage Cluster-Aware Phase-Guided Reweighted Sparse Framework for High-Resolution DOA Estimation</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Monika Aggarwal</div>
+        <div class="pub-venue">Submitted to Digital Signal Processing</div>
+      </li>
+      <li class="pub">
+        <div class="pub-title">Exploiting Wavelet Scattering Transform and 1D-CNN for Unmanned Aerial Vehicle Detection</div>
+        <div class="pub-authors"><b>Murtiza Ali</b>, Karan Nathwani</div>
+        <div class="pub-venue">IEEE Transactions on Artificial Intelligence (first revision)</div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== CONTACT / FOOTER ===================== -->
+<footer id="contact">
+  <div>Murtiza Ali &middot; South East Technological University, Carlow, Ireland</div>
+  <div><a href="mailto:khandaymurtaza@gmail.com">khandaymurtaza@gmail.com</a></div>
+  <div class="small">Last updated October 2026</div>
+</footer>
+
+<script>
+  /* ===================== SLIDESHOW SETTINGS =====================
+     Put your images in an "images" folder in the repository and list them here.
+     Landscape photos around 1600×900 pixels look best.
+     If a file is missing, a plain blue background is shown instead.
+  =============================================================== */
+  const SLIDES = [
+    { src: "images/slide1.jpg", caption: "Presenting at EUSIPCO 2025" },
+    { src: "images/slide2.jpg", caption: "INTERSPEECH 2024, Kos, Greece" },
+    { src: "images/slide3.jpg", caption: "OCEANS 2024, Singapore" },
+    { src: "images/slide4.jpg", caption: "UAV detection demo at IInvenTiv" }
+  ];
+  const INTERVAL_MS = 5000;   // time each slide stays on screen
+
+  const show = document.getElementById("slideshow");
+  const dotsBox = show.querySelector(".dots");
+  const slideEls = [], dotEls = [];
+
+  SLIDES.forEach((s, i) => {
+    const el = document.createElement("div");
+    el.className = "slide placeholder";
+    const img = new Image();
+    img.onload = () => { el.style.backgroundImage = `url('${s.src}')`; el.classList.remove("placeholder"); };
+    img.src = s.src;
+    if (s.caption) {
+      const cap = document.createElement("div");
+      cap.className = "slide-caption";
+      cap.textContent = s.caption;
+      el.appendChild(cap);
+    }
+    show.insertBefore(el, show.firstChild);
+    slideEls.push(el);
+
+    const dot = document.createElement("button");
+    dot.className = "dot";
+    dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
+    dot.onclick = () => { go(i); restart(); };
+    dotsBox.appendChild(dot);
+    dotEls.push(dot);
+  });
+
+  let current = 0, timer = null;
+  function go(n) {
+    slideEls[current].classList.remove("active");
+    dotEls[current].classList.remove("active");
+    current = (n + slideEls.length) % slideEls.length;
+    slideEls[current].classList.add("active");
+    dotEls[current].classList.add("active");
+  }
+  function restart() {
+    clearInterval(timer);
+    if (slideEls.length > 1) timer = setInterval(() => go(current + 1), INTERVAL_MS);
+  }
+  show.querySelector(".prev").onclick = () => { go(current - 1); restart(); };
+  show.querySelector(".next").onclick = () => { go(current + 1); restart(); };
+  show.addEventListener("mouseenter", () => clearInterval(timer));
+  show.addEventListener("mouseleave", restart);
+  if (slideEls.length) { go(0); restart(); }
+
+  /* ===================== PUBLICATION FILTER ===================== */
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.onclick = () => {
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      const f = tab.dataset.filter;
+      document.querySelectorAll(".pub-group").forEach(g => {
+        g.classList.toggle("hidden", f !== "all" && g.dataset.type !== f);
+      });
+    };
+  });
+
+  /* Close mobile menu after choosing a section */
+  document.querySelectorAll(".nav-links a").forEach(a =>
+    a.addEventListener("click", () => document.querySelector(".nav-links").classList.remove("open"))
+  );
+</script>
+</body>
+</html>
